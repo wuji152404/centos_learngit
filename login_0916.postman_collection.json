@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "02fe413a-c1a7-4dc6-929a-856369d819b6",
+		"name": "login_0916",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2919d836-114e-4c77-a4ec-49d3498bf6ce",
+						"exec": [
+							"",
+							"",
+							"console.log(111111111)",
+							"pm.environment.set(\"username\", \"data.username\");",
+							"pm.environment.set(\"password\", \"data.password\");",
+							"pm.environment.set(\"app_key\", \"data.app_key\");",
+							"console.log(\"{{username}}\")",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "139952e4-6b58-4919-8e49-b5ca392c0815",
+						"exec": [
+							"",
+							"// pm.test(\"Status code is 200\", function () {",
+							"//     pm.response.to.have.status(200);",
+							"    ",
+							"// });",
+							"",
+							"// pm.test(\"baohan\", function () {",
+							"//     pm.expect(pm.response.text()).to.include(\"uuid\");",
+							"// });",
+							"",
+							"//与下一条的预处理相结合使用",
+							"// pm.globals.set(\"app_key\", \"80F0C6CF4F0A2BC0FD73F7CBD17AC22E\");",
+							"pm.globals.set(\"uuid\", JSON.parse(responseBody).data.uuid);",
+							"pm.globals.set(\"token\", JSON.parse(responseBody).data.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"username\":\"{{username}}\",\n\t\"password\":\"{{password}}\",\n\t\"app_key\":\"{{app_key}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://hn216.api.yesapi.cn/?s=App.User.Login",
+					"protocol": "http",
+					"host": [
+						"hn216",
+						"api",
+						"yesapi",
+						"cn"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "App.User.Login"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "退出登录",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2fc681e3-ad4e-4922-80a9-41e0bfa52793",
+						"exec": [
+							"",
+							"// pm.sendRequest(\"http://hn216.api.yesapi.cn/?s=App.User.Login&app_key=80F0C6CF4F0A2BC0FD73F7CBD17AC22E&username=zhuke&password=e10adc3949ba59abbe56e057f20f883e\", function (err, response) {",
+							"//     console.log(response.json());",
+							"//     pm.environment.set(\"uuid\", response.json().data.uuid);",
+							"//     pm.environment.set(\"token\", response.json().data.token);",
+							"//     pm.environment.set(\"app_key\", \"80F0C6CF4F0A2BC0FD73F7CBD17AC22E\");",
+							"//     console.log(\"111111\")",
+							"// });",
+							"",
+							"//与上一条的test里面相结合使用",
+							"// pm.globals.get(\"app_key\");",
+							"pm.environment.set(\"app_key\", \"data.app_key\");",
+							"pm.globals.get(\"uuid\");",
+							"pm.globals.get(\"token\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "10c2c818-2c67-4de3-a683-9f22f935ec1c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"err_code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"0\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "app_key",
+							"value": "{{app_key}}",
+							"type": "text"
+						},
+						{
+							"key": "uuid",
+							"value": "{{uuid}}",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://hn216.api.yesapi.cn/?s=App.User.Logout",
+					"protocol": "http",
+					"host": [
+						"hn216",
+						"api",
+						"yesapi",
+						"cn"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "App.User.Logout"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

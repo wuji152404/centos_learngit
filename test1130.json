@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "f605ef45-fed1-4355-991d-44744ff6b9cd",
+		"name": "test1130",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "注册",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hn216.api.yesapi.cn/?s=App.User.Register&app_key={{app_key}}&username={{username}}&password={{password}}",
+					"protocol": "http",
+					"host": [
+						"hn216",
+						"api",
+						"yesapi",
+						"cn"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "App.User.Register"
+						},
+						{
+							"key": "app_key",
+							"value": "{{app_key}}"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登录",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hn216.api.yesapi.cn/?s=App.User.Login&app_key={{app_key}}&username={{username}}&password={{password}}",
+					"protocol": "http",
+					"host": [
+						"hn216",
+						"api",
+						"yesapi",
+						"cn"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "App.User.Login"
+						},
+						{
+							"key": "app_key",
+							"value": "{{app_key}}"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "获取会员个人资料",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2deaf526-6f82-4f39-8332-7d34e3b5527e",
+						"exec": [
+							"var app_key1 =pm.environment.get(\"app_key\"); ",
+							"// 将test1130这个环境变量引入app_key的变量，然后再将这个变量，传到app_key1中。",
+							"var name1 = pm.environment.get(\"username\"); ",
+							"// 将test1130这个环境变量引入username的变量，然后再将这个变量，传到name1中。",
+							"var word1 = pm.environment.get(\"password\");",
+							"// 将test1130这个环境变量引入password的变量，然后再将这个变量，传到Word1中。",
+							"var url1 = \"http://hn216.api.yesapi.cn/?s=App.User.Login&app_key=\"+app_key1+\"username=\"+name1+\"password=\"+word1;",
+							"// 将url1设置成变量，然后后面就是跟你前一个接口地址，当然上面这个地址是拼接的url使用【+（这里面写你的变量）+】后面可以无限的续加，将必填的参数依次写上去就可以。",
+							"pm.sendRequest(url1, function (err, response) {",
+							"    console.log(response.json());",
+							"// 然后使用postman中已经配置好的文件【send a request】这是一个发送请求，将url放进去，意思是这个接口返回的参数以json报文返回。",
+							"    pm.environment.get(\"uuid\",response.json().data.uuid);",
+							"//  将test1130这个环境变量中获取uuid的变量的数据",
+							"    pm.environment.get(\"token\",response.json().data.token);",
+							"// 将test1130这个环境变量中获取token的变量的数据",
+							"    pm.variables.get(\"variable_key\");",
+							"// 发送请求得到上面的数据。",
+							"});",
+							"    ",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9204dd38-ee0a-40ed-9271-9d2613c81c7b",
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"// 断言这个接口返回的响应时间200m以内",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// 断言这个接口状态码返回的是200",
+							"",
+							"tests[\"err_code\"] = responseBody.has(\"0\");",
+							"// 断言在这个接口返回json报文中response的body中是否包含err_code=0   "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hn216.api.yesapi.cn/?s=App.User.Profile&app_key={{app_key}}&uuid={{uuid}}&token={{token}}",
+					"protocol": "http",
+					"host": [
+						"hn216",
+						"api",
+						"yesapi",
+						"cn"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "App.User.Profile"
+						},
+						{
+							"key": "app_key",
+							"value": "{{app_key}}"
+						},
+						{
+							"key": "uuid",
+							"value": "{{uuid}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
